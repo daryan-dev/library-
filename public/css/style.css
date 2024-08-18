@@ -1,0 +1,94 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Centering the form */
+body, html {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f2f5;
+}
+
+/* Form container */
+.form-container {
+    background-color: #fff;
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+}
+
+/* Form header */
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Form group */
+.form-group {
+    margin-bottom: 15px;
+}
+
+/* Form labels */
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+/* Input fields, select dropdown, textarea, date input, and file input */
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #333;
+    background-color: #f9f9f9;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+/* File input specific styles */
+.form-group input[type="file"] {
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    color: #333;
+}
+
+/* Focus effect */
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: #007bff;
+}
+
+/* Textarea specific styles */
+.form-group textarea {
+    resize: vertical; /* Allows the textarea to be resized vertically */
+    min-height: 100px; /* Minimum height for the textarea */
+}
+
+/* Submit button */
+.form-group button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Button hover effect */
+.form-group button:hover {
+    background-color: #0056b3;
+}

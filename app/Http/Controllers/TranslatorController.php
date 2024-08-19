@@ -12,16 +12,28 @@ class TranslatorController extends Controller
 {
     public function store(Request $request)
     {
-        // $authorsCheck = session('authors');
-        // if (!$authorsCheck) {
-        //     return redirect('/addauthor');
-        // }
 
-        $translators = $request->input('translators');
+        //================checking if author has been created================
+        $authorsCheck = session('authors');
+        if (empty($authorsCheck)) {
+            return redirect('/addauthor');
+        }
+
+
+        //================start transaction================
+
         DB::beginTransaction();
 
+
         try {
+            // retriving session data
+            $translators = $request->input('translators');
             $books = session('books');
+            $authors = session('authors');
+
+
+
+            // inserting books data
             DB::statement(
                 'INSERT INTO book (title, page_num, genre, description, published_at) VALUES (?, ?, ?, ?, ?)',
                 [
@@ -34,26 +46,30 @@ class TranslatorController extends Controller
             );
 
 
-$imgPaths = json_decode($books['imgpath'], true);
 
-$bookId = DB::selectOne('SELECT LAST_INSERT_ID() AS id')->id;
+            $bookId = DB::selectOne('SELECT LAST_INSERT_ID() AS id')->id;
 
-if (!empty($imgPaths)) {
-    foreach ($imgPaths as $img) {
-        DB::statement('INSERT INTO book_pic (imagepath, bookid, ismain) VALUES (?, ?, ?)', [
-            $img,
-            $bookId,
-            $books['ismain']
-        ]);
-    }
-}
+
+
+            // inserting image paths
+            $imgPaths = $books['imgpath'];
+            if (!empty($imgPaths)) {
+                foreach ($imgPaths as $img) {
+                    DB::statement('INSERT INTO book_pic (imagepath, bookid, ismain) VALUES (?, ?, ?)', [
+                        $img,
+                        $bookId,
+                        $books['ismain']
+                    ]);
+                }
+            }
+
 
 
             session(['bookid' => $bookId]);
             foreach ($translators as $translator) {
                 $this->insertAndLinkTranslator($translator);
             }
-            foreach (session('authors', []) as $author) {
+            foreach ($authors as $author) {
                 $this->insertAndLinkAuthor($author);
             }
 
@@ -92,7 +108,7 @@ if (!empty($imgPaths)) {
 
     private function insertAndLinkAuthor($authorName)
     {
-                $author = DB::select(
+        $author = DB::select(
             'SELECT authorid FROM author WHERE authorname = ?',
             [$authorName]
         );

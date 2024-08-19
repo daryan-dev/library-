@@ -42,7 +42,7 @@
                 </div>
                 <div class="form-group">
                     <label for="cover_image">main image of book</label>
-                    <input type="checkbox" id="my_checkbox" name="my_checkbox" value="1">
+                    <input type="checkbox" id="ismain" name="ismain" value="1">
                 </div>
                 <div class="form-group">
                     <label for="author">author</label>

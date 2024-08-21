@@ -24,4 +24,4 @@ Route::any('/storetranslator', [TranslatorController::class, 'store']);
 
 Route::get('/bookdetail/{id}',[BookDetailController::class,'index'])->name('book.detail');
 
-Route::view('/editbook','');
+Route::view('/editbook','edit_book');

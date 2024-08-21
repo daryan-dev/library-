@@ -55,15 +55,13 @@ class TranslatorController extends Controller
             $bookId = DB::selectOne('SELECT LAST_INSERT_ID() AS id')->id;
 
 
-
-            // inserting image paths
-            $imgPaths = $books['imgpath'];
+            $imgPaths = $books['cover_image'];
             if (!empty($imgPaths)) {
                 foreach ($imgPaths as $img) {
-                    DB::statement('INSERT INTO book_pic (imagepath, bookid, ismain) VALUES (?, ?, ?)', [
+                    var_dump($img);
+                    DB::statement('INSERT INTO book_pic (imagepath, bookid) VALUES (?, ?)', [
                         $img,
                         $bookId,
-                        $books['ismain']
                     ]);
                 }
             }

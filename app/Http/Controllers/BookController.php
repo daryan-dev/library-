@@ -41,9 +41,6 @@ class BookController extends Controller
                 'genre' => 'required|max:50',
                 'date' => 'date|before:today',
                 'description' => 'nullable|string',
-                'cover_image'=>'required|image',
-                'cover_images' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                'extra_images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
 
 
@@ -53,7 +50,7 @@ class BookController extends Controller
                 foreach ($this->request->file('cover_images') as $file) {
                     $filename = time() . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
                     $file->storeAs('public/image', $filename);
-                    $extra_images[] = $filename;
+                    $path[]=$filename;
                 }
             }
 
@@ -69,8 +66,7 @@ class BookController extends Controller
                 'genre' => $validated['genre'],
                 'description' => $validated['description'] ?? null,
                 'published_at' => $validated['date'],
-                'cover_image'=>$validated['cover_image'],
-                'extra_images' => $extra_images
+                'cover_image'=>$path,
             ];
             session(['books' => $books]);
 

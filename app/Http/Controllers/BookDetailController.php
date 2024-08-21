@@ -46,11 +46,20 @@ INNER JOIN
 WHERE  book_translator.bookid = ?
 ',[$id]);
 
+$images=DB::select('
+SELECT
+    imagepath
+FROM
+    book_pic
+WHERE
+    bookid = ?
+ ',[$id]);
 
 return view('book_detail',[
     'bookdetail'=>$bookdetail,
     'authors'=>$authors,
-    'translators'=>$translators
+    'translators'=>$translators,
+    'images'=>$images
 ]);
  }
 }

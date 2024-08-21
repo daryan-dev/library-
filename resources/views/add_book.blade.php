@@ -41,10 +41,6 @@
                     <input type="file" id="cover_images" name="cover_images[]" accept="image/*" multiple>
                 </div>
                 <div class="form-group">
-                    <label for="extra Images">Extra Images</label>
-                    <input type="file" id="extra_images" name="extra_images" accept="image/*" multiple>
-                </div>
-                <div class="form-group">
                     <label for="author">author</label>
                     <select id="" name="authors[]"  multiple>
                         @foreach ($authorlist as $author)

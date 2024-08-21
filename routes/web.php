@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\BookDetailController;
 use App\Http\Controllers\MainpageController;
 use App\Http\Controllers\TranslatorController;
 use Illuminate\Support\Facades\Route;
@@ -19,4 +20,8 @@ Route::post('/addingbook',[BookController::class,'addbook']);
 
 Route::post('/storeauthors', [AuthorController::class, 'storeAuthors']);
 
-Route::post('/storetranslator', [TranslatorController::class, 'store']);
+Route::any('/storetranslator', [TranslatorController::class, 'store']);
+
+Route::get('/bookdetail/{id}',[BookDetailController::class,'index'])->name('book.detail');
+
+Route::view('/editbook','');

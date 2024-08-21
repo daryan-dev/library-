@@ -27,7 +27,12 @@ class TranslatorController extends Controller
 
         try {
             // retriving session data
-            $translators = $request->input('translators');
+            if (empty(session())) {
+                $translators = $request->input('translators');
+                        }else {
+                            $translators=session('translators');
+                        }
+
             $books = session('books');
             $authors = session('authors');
 
@@ -66,18 +71,23 @@ class TranslatorController extends Controller
 
 
             session(['bookid' => $bookId]);
-            foreach ($translators as $translator) {
-                $this->insertAndLinkTranslator($translator);
-            }
-            foreach ($authors as $author) {
-                $this->insertAndLinkAuthor($author);
-            }
+            // if (!empty($translators)) {
+                foreach ($translators as $translator) {
+                    $this->insertAndLinkTranslator($translator);
+                }
+            // }
+            // if (!empty($authors)) {
+                foreach ($authors as $author) {
+                    $this->insertAndLinkAuthor($author);
+                }
+            // }
+
 
             DB::commit();
             return redirect('/');
         } catch (\Throwable $th) {
             DB::rollBack();
-            return redirect('/addbook')->withErrors([$th->getMessage()]);
+            return var_dump($th->getMessage());
         }
     }
 

@@ -41,8 +41,8 @@
                     <input type="file" id="cover_images" name="cover_images[]" accept="image/*" multiple>
                 </div>
                 <div class="form-group">
-                    <label for="cover_image">main image of book</label>
-                    <input type="checkbox" id="ismain" name="ismain" value="1">
+                    <label for="extra Images">Extra Images</label>
+                    <input type="file" id="extra_images" name="extra_images" accept="image/*" multiple>
                 </div>
                 <div class="form-group">
                     <label for="author">author</label>
@@ -51,6 +51,16 @@
                         <option value="{{$author->authorname}}">{{$author->authorname}}</option>
                         @endforeach
                     </select>
+
+
+                    <div class="form-group">
+                        <label for="translator">translator</label>
+                        <select id="" name="translators[]"  multiple>
+                            @foreach ($translatorlist as $translator)
+                            <option value="{{$translator->translatorname}}">{{$translator->translatorname}}</option>
+                            @endforeach
+                        </select>
+                        <br>
                 <button type="submit">Upload</button>
             </div>
         </form>

@@ -21,8 +21,12 @@ class BookController extends Controller
     {
         // ================get stored author names ================
         $authorlist = DB::select('SELECT authorname FROM author');
-        return view('add_book', ['authorlist' => $authorlist]);
-    }
+        $translatorlist = DB::select('SELECT translatorname FROM translator');
+        return view('add_book', [
+            'authorlist' => $authorlist,
+            'translatorlist' => $translatorlist,
+        ]);
+            }
 
     // ZYAD KRDNI KTEB BO
     public function addBook(Request $request)
@@ -37,17 +41,23 @@ class BookController extends Controller
                 'genre' => 'required|max:50',
                 'date' => 'date|before:today',
                 'description' => 'nullable|string',
+                'cover_image'=>'required|image',
+                'cover_images' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'extra_images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]);
 
 
 
             // ================uploading image================
-            $paths = $this->uploadImageGetPath();
+            if ($this->request->hasFile('cover_images')) {
+                foreach ($this->request->file('cover_images') as $file) {
+                    $filename = time() . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $file->storeAs('public/image', $filename);
+                    $extra_images[] = $filename;
+                }
+            }
 
 
-
-
-            $isChecked = $request->has('ismain') ? true : false;
 
 
 
@@ -59,20 +69,23 @@ class BookController extends Controller
                 'genre' => $validated['genre'],
                 'description' => $validated['description'] ?? null,
                 'published_at' => $validated['date'],
-                'imgpath' => $paths,
-                'ismain' => $isChecked
+                'cover_image'=>$validated['cover_image'],
+                'extra_images' => $extra_images
             ];
             session(['books' => $books]);
 
 
 
             // ================checking if author is selected================
-            if($this->checkIfAuthorSelected()){
-                return redirect('/addtranslator');
-            }else {
-            return view('add_author');
+            if(!$this->checkIfAuthorSelected()){
+                return view('add_author');
             }
 
+            if($this->checkIfTranslatorSelected()){
+                return redirect('/storetranslator');
+            }else {
+            return view('add_translator');
+            }
 
 
         } catch (\Throwable $th) {
@@ -80,6 +93,15 @@ class BookController extends Controller
         }
     }
 
+
+    private function checkIfTranslatorSelected() {
+        $translators = $this->request->input('translators', []);
+        if (!empty($translators)) {
+            session(['translators' => $translators]);
+            return true;
+        }
+        return false;
+    }
 
     private function checkIfAuthorSelected() {
         $authors = $this->request->input('authors', []);
@@ -91,17 +113,4 @@ class BookController extends Controller
     }
 
 
-
-
-    private function uploadImageGetPath()
-    {
-        if ($this->request->hasFile('cover_images')) {
-            foreach ($this->request->file('cover_images') as $file) {
-                $filename = time() . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
-                $path = $file->storeAs('public/image', $filename);
-                $paths[] = $path;
-                return $paths;
-            }
-        }
-    }
 }

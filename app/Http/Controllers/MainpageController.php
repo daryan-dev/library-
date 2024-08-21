@@ -17,7 +17,7 @@ class MainpageController extends Controller
 
             //================selecting all all books for main page================
 
-            $books = DB::select('SELECT title, page_num, genre, YEAR(published_at) AS year FROM book');
+            $books = DB::select('SELECT title, page_num, genre, YEAR(published_at) AS year ,bookid FROM book');
             return view('welcome', ['books' => $books]);
         } catch (\Throwable $th) {
             echo $th->getMessage();

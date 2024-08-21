@@ -102,7 +102,6 @@
                 <label for="author1">Author:</label>
                 <input type="text" name="authors[]" id="author1">
                 <button type="button" class="removeAuthorButton" onclick="removeAuthorField(this)">Remove</button>
-                {{-- <input type="hidden" name="book_id" value="{{ $bookid }}"> --}}
             </div>
         </div>
         <button type="button" onclick="addAuthorField()">Add Another Author</button>

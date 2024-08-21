@@ -53,11 +53,11 @@ class BookController extends Controller
                     $path[]=$filename;
                 }
             }
-
-
-
-
-
+            if ($this->request->hasFile('main_image')) {
+                    $filename = time() . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $file->storeAs('public/image', $filename);
+                    $main_image=$filename;
+                }
 
             $books = [
                 'bookid' => $request->input('bookid'),
@@ -67,6 +67,7 @@ class BookController extends Controller
                 'description' => $validated['description'] ?? null,
                 'published_at' => $validated['date'],
                 'cover_image'=>$path,
+                'main_image'=>$main_image
             ];
             session(['books' => $books]);
 

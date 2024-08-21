@@ -36,6 +36,12 @@
                     <label for="release_date">Release Date</label>
                     <input type="date" id="date" name="date" required>
                 </div>
+
+                <div class="form-group">
+                    <label for="main_image">Main Image</label>
+                    <input type="file" id="main_images" name="main_images" accept="image/*" >
+                </div>
+
                 <div class="form-group">
                     <label for="cover_image">Cover Image</label>
                     <input type="file" id="cover_images" name="cover_images[]" accept="image/*" multiple>
@@ -47,7 +53,7 @@
                         <option value="{{$author->authorname}}">{{$author->authorname}}</option>
                         @endforeach
                     </select>
-
+<br><br>
 
                     <div class="form-group">
                         <label for="translator">translator</label>
@@ -56,7 +62,11 @@
                             <option value="{{$translator->translatorname}}">{{$translator->translatorname}}</option>
                             @endforeach
                         </select>
-                        <br>
+                        <br><br>
+                        <div class="form-group">
+                            <label for="Book-Code">Book code</label>
+                            <input type="text" id="isbn" name="isbn" value="isbn" required>
+                        </div>
                 <button type="submit">Upload</button>
             </div>
         </form>

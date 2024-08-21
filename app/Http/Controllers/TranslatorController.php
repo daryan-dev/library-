@@ -58,12 +58,19 @@ class TranslatorController extends Controller
             $imgPaths = $books['cover_image'];
             if (!empty($imgPaths)) {
                 foreach ($imgPaths as $img) {
-                    var_dump($img);
+
                     DB::statement('INSERT INTO book_pic (imagepath, bookid) VALUES (?, ?)', [
                         $img,
                         $bookId,
                     ]);
                 }
+            }
+            if (!empty($books['main_image'])) {
+                DB::statement('INSERT INTO book_pic (imagepath, bookid,ismain) VALUES (?, ?,?)', [
+                    $books['main_image'],
+                    $bookId,
+                    true
+                ]);
             }
 
 
